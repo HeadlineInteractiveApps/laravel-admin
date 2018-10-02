@@ -932,7 +932,7 @@ class Form
     {
         $relations = $this->getRelations();
 
-        $this->model = $this->model->with($relations)->findOrFail($id);
+        $this->model = $this->model->withTrashed()->with($relations)->findOrFail($id);
 
         $data = $this->model->toArray();
 
