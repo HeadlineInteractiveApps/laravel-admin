@@ -932,8 +932,12 @@ class Form
     {
         $relations = $this->getRelations();
 
-        $this->model = $this->model->withTrashed()->with($relations)->findOrFail($id);
-
+        if(method_exists($this->model,'trashed')) {
+            $this->model = $this->model->withTrashed()->with($relations)->findOrFail($id);
+        } else {
+            $this->model = $this->model->with($relations)->findOrFail($id);
+        }
+  
         $data = $this->model->toArray();
 
         $this->builder->fields()->each(function (Field $field) use ($data) {
